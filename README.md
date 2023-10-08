@@ -1,16 +1,23 @@
 # moneybox
 
-A new Flutter project.
-
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Flutter APP with simple money tracker feature including CRUD and filter by date
 
-A few resources to get you started if this is your first Flutter project:
+### Packages
+- Flutter
+- hive
+- get (getx)
+- intl
+- flutter_swipe_action_cell
+- currency_formatter
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Feature
+- CRUD
+- Total income / outcome (expense)
+- Filter by date
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Note : 
+im using app icon from Vecteezy
+
+INDIVIDUAL PROJECT

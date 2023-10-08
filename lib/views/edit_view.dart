@@ -74,95 +74,97 @@ class _EditViewState extends State<EditView> {
         middle: Text("Edit"),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            children: [
-              CupertinoTextField(
-                controller: _titleController,
-                placeholder: "Title",
-              ),
-              const SizedBox(height: 15),
-              CupertinoTextField(
-                controller: _descController,
-                placeholder: "Description",
-              ),
-              const SizedBox(height: 15),
-              CupertinoTextField(
-                controller: _moneyController,
-                placeholder: "Money",
-              ),
-              const SizedBox(height: 15),
-              CupertinoTextField(
-                onTap: () async {
-                  DateTime? calendarPicker = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2013),
-                      lastDate: DateTime(2033));
-                  if (calendarPicker != null) {
-                    controller.dateFormat = calendarPicker;
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              children: [
+                CupertinoTextField(
+                  controller: _titleController,
+                  placeholder: "Title",
+                ),
+                const SizedBox(height: 15),
+                CupertinoTextField(
+                  controller: _descController,
+                  placeholder: "Description",
+                ),
+                const SizedBox(height: 15),
+                CupertinoTextField(
+                  controller: _moneyController,
+                  placeholder: "Money",
+                ),
+                const SizedBox(height: 15),
+                CupertinoTextField(
+                  onTap: () async {
+                    DateTime? calendarPicker = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2013),
+                        lastDate: DateTime(2033));
+                    if (calendarPicker != null) {
+                      controller.dateFormat = calendarPicker;
 
-                    _dateController.text =
-                        DateFormat('dd MMMM yyyy').format(calendarPicker);
-                  }
-                },
-                readOnly: true,
-                controller: _dateController,
-                placeholder: "Pick a Date",
-              ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Obx(() => AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: controller.isExpense.value == true ? 0 : 1,
-                        child: const Text("Income"),
-                      )),
-                  const SizedBox(width: 5),
-                  Obx(() => CupertinoSwitch(
-                        trackColor: CupertinoColors.systemGreen,
-                        activeColor: CupertinoColors.systemRed,
-                        value: controller.isExpense.value,
-                        onChanged: (value) {
-                          chooseExpense = value;
-                          controller.isExpense.value = chooseExpense;
-                        },
-                      )),
-                  const SizedBox(width: 5),
-                  Obx(() => AnimatedOpacity(
-                        duration: const Duration(milliseconds: 300),
-                        opacity: controller.isExpense.value == true ? 1 : 0,
-                        child: const Text("Outcome"),
-                      )),
-                ],
-              ),
-              const SizedBox(height: 15),
-              CupertinoButton.filled(
-                child: const Text("Update"),
-                onPressed: () {
-                  if (controller.dateFormat != null &&
-                      _dateController.text.isNotEmpty &&
-                      _titleController.text.isNotEmpty &&
-                      _descController.text.isNotEmpty &&
-                      _moneyController.text.isNotEmpty) {
-                    editData(
-                        DateFormat('yyyyMMdd').format(controller.dateFormat!));
-                    controller.totalIncome();
-                    controller.totalOutcome();
-                    Get.back();
-                  } else {
-                    Get.snackbar(
-                      "Error",
-                      "Pastikan mengisi semua form",
-                      snackPosition: SnackPosition.BOTTOM,
-                      margin: const EdgeInsets.all(15),
-                    );
-                  }
-                },
-              ),
-            ],
+                      _dateController.text =
+                          DateFormat('dd MMMM yyyy').format(calendarPicker);
+                    }
+                  },
+                  readOnly: true,
+                  controller: _dateController,
+                  placeholder: "Pick a Date",
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(() => AnimatedOpacity(
+                          duration: const Duration(milliseconds: 300),
+                          opacity: controller.isExpense.value == true ? 0 : 1,
+                          child: const Text("Income"),
+                        )),
+                    const SizedBox(width: 5),
+                    Obx(() => CupertinoSwitch(
+                          trackColor: CupertinoColors.systemGreen,
+                          activeColor: CupertinoColors.systemRed,
+                          value: controller.isExpense.value,
+                          onChanged: (value) {
+                            chooseExpense = value;
+                            controller.isExpense.value = chooseExpense;
+                          },
+                        )),
+                    const SizedBox(width: 5),
+                    Obx(() => AnimatedOpacity(
+                          duration: const Duration(milliseconds: 300),
+                          opacity: controller.isExpense.value == true ? 1 : 0,
+                          child: const Text("Outcome"),
+                        )),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                CupertinoButton.filled(
+                  child: const Text("Update"),
+                  onPressed: () {
+                    if (controller.dateFormat != null &&
+                        _dateController.text.isNotEmpty &&
+                        _titleController.text.isNotEmpty &&
+                        _descController.text.isNotEmpty &&
+                        _moneyController.text.isNotEmpty) {
+                      editData(DateFormat('yyyyMMdd')
+                          .format(controller.dateFormat!));
+                      controller.totalIncome();
+                      controller.totalOutcome();
+                      Get.back();
+                    } else {
+                      Get.snackbar(
+                        "Error",
+                        "Pastikan mengisi semua form",
+                        snackPosition: SnackPosition.BOTTOM,
+                        margin: const EdgeInsets.all(15),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
