@@ -103,7 +103,6 @@ class AddView extends GetView<MainController> {
                     controller.totalOutcome();
                     Get.back();
                   } else {
-                    // print("KOSONG");
                     Get.snackbar(
                       "Error",
                       "Pastikan mengisi semua form",

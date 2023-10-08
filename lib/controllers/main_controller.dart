@@ -5,12 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:currency_formatter/currency_formatter.dart';
 
 class MainController extends GetxController {
-  CurrencyFormatterSettings currencySettings = CurrencyFormatterSettings(
-    symbol: 'Rp.',
-    thousandSeparator: ',',
-    decimalSeparator: '.',
-    symbolSeparator: ' ',
-  );
   RxInt currentIndex = 0.obs;
   DateTime dateNow = DateTime.now();
   RxString dateTitle = DateFormat('dd MMMM yyyy').format(DateTime.now()).obs;
@@ -22,9 +16,11 @@ class MainController extends GetxController {
   RxInt incomeTotal = 0.obs;
   RxList outcomeList = [].obs;
   RxInt outcomeTotal = 0.obs;
+  RxBool isExpand = false.obs;
 
   final Box moneyBox = Hive.box('moneyBox');
 
+  // create key with object MoneyModel
   createData(
       String title, String desc, String money, String date, bool isExpense) {
     MoneyModel moneyModel = MoneyModel(
@@ -36,12 +32,14 @@ class MainController extends GetxController {
     moneyBox.add(moneyModel);
   }
 
+  // remove key from box
   removeData(index) {
     moneyBox.deleteAt(index);
     totalIncome();
     totalOutcome();
   }
 
+  // calculate total outcome
   totalOutcome() {
     outcomeTotal.value = 0;
     outcomeList.value = [];
@@ -59,6 +57,7 @@ class MainController extends GetxController {
     }
   }
 
+  // calculate total income
   totalIncome() {
     incomeTotal.value = 0;
     incomeList.value = [];
@@ -75,6 +74,9 @@ class MainController extends GetxController {
       }
     }
   }
+
+  // format dynamic variable to selected currency (idr)
+  CurrencyFormat currencyFormat = CurrencyFormat.idr;
 
   @override
   void onInit() {

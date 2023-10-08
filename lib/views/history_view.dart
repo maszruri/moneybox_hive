@@ -30,7 +30,7 @@ class HistoryView extends GetView<MainController> {
                         Obx(() => Text(
                               CurrencyFormatter.format(
                                   controller.incomeTotal.value,
-                                  controller.currencySettings),
+                                  controller.currencyFormat),
                               style: const TextStyle(fontSize: 20),
                             )),
                       ],
@@ -43,7 +43,7 @@ class HistoryView extends GetView<MainController> {
                         Obx(() => Text(
                               CurrencyFormatter.format(
                                   controller.outcomeTotal.value,
-                                  controller.currencySettings),
+                                  controller.currencyFormat),
                               style: const TextStyle(fontSize: 20),
                             )),
                       ],
@@ -58,6 +58,7 @@ class HistoryView extends GetView<MainController> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(0),
+              // listen some value from moneyBox variable
               child: ValueListenableBuilder(
                 valueListenable: controller.moneyBox.listenable(),
                 builder: (context, value, child) {
@@ -71,9 +72,11 @@ class HistoryView extends GetView<MainController> {
                       itemCount: controller.moneyBox.length,
                       itemBuilder: (context, index) {
                         var getData = controller.moneyBox.getAt(index);
+                        // swipable card for more options
                         return SwipeActionCell(
                           key: ObjectKey(getData),
                           trailingActions: [
+                            // delete section
                             SwipeAction(
                               icon: const Icon(Icons.delete),
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -87,12 +90,14 @@ class HistoryView extends GetView<MainController> {
                                 controller.removeData(index);
                               },
                             ),
+                            // edit section
                             SwipeAction(
                               style: const TextStyle(color: Colors.black),
                               icon: const Icon(Icons.edit),
                               title: "Edit",
                               color: Theme.of(context).scaffoldBackgroundColor,
                               onTap: (handler) {
+                                // pass some data to update view
                                 Get.to(
                                   () => EditView(
                                     index: index,
@@ -113,20 +118,38 @@ class HistoryView extends GetView<MainController> {
                               color: getData.isExpense == true
                                   ? CupertinoColors.systemRed
                                   : CupertinoColors.systemGreen,
-                              child: ListTile(
-                                title: Text(getData.title,
-                                    style: TextStyle(
-                                        color: getData.isExpense == true
-                                            ? Colors.white
-                                            : Colors.black)),
+                              child: ExpansionTile(
+                                textColor: Colors.black87,
+                                iconColor: Colors.black54,
+                                // onExpansionChanged: (value) {
+                                //   controller.isExpand.value = value;
+                                //   print(controller.isExpand);
+                                // },
+                                title: Text(getData.title),
                                 subtitle: Text(
-                                  DateFormat('dd MMMM yyyy')
-                                      .format(DateTime.parse(getData.date)),
-                                  style: TextStyle(
-                                      color: getData.isExpense == true
-                                          ? Colors.white
-                                          : Colors.black),
+                                  DateFormat('dd MMMM yyyy').format(
+                                    DateTime.parse(getData.date),
+                                  ),
                                 ),
+                                childrenPadding: const EdgeInsets.all(15),
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Description : ${getData.desc}",
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Text(
+                                            "Money : ${CurrencyFormatter.format(getData.money, controller.currencyFormat)}"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

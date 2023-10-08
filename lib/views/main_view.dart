@@ -12,6 +12,7 @@ class MainView extends GetView<MainController> {
 
   final PageController pageController = PageController();
 
+  // animate switching pages via bottom navigation bar
   void onItemTap(int index) {
     controller.currentIndex.value = index;
     pageController.animateToPage(index,
@@ -23,12 +24,6 @@ class MainView extends GetView<MainController> {
     return Scaffold(
       appBar: const CupertinoNavigationBar(
         middle: Text("MoneyBox"),
-        // leading: IconButton(
-        //   onPressed: () {
-        //     controller.totalIncome();
-        //   },
-        //   icon: const Icon(Icons.check),
-        // ),
       ),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
@@ -64,6 +65,7 @@ class _HomeViewState extends State<HomeView> {
                         itemCount: controller.moneyBox.length,
                         itemBuilder: (context, index) {
                           var getData = controller.moneyBox.getAt(index);
+                          // using visibility to hide/show data in specific date
                           if (getData.date ==
                               DateFormat('yyyyMMdd')
                                   .format(controller.dateNow)) {

@@ -10,6 +10,7 @@ import 'views/main_view.dart';
 void main(List<String> args) async {
   await Hive.initFlutter();
   Hive.registerAdapter(MoneyModelAdapter());
+  // box 'moneyBox'
   await Hive.openBox('moneyBox');
   Get.put(MainController());
   runApp(const MyApp());
